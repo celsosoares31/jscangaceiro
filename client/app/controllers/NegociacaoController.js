@@ -11,12 +11,20 @@ class NegociacaoController {
     this._mensagem = new Bind(new Mensagem(), new MensagemView("#mensagemView"), "texto");
   }
   adiciona(e) {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+      this._negociacoes.adiciona(this._criaNegociacao());
+      this._mensagem.texto = "Negociacao adicionada com sucesso";
+      this._limpaFormulario();
+    } catch (error) {
+      console.log(error);
 
-    this._negociacoes.adiciona(this._criaNegociacao());
-    this._mensagem.texto = "Negociacao adicionada com sucesso";
-
-    this._limpaFormulario();
+      if (error instanceof DataInvalidaException) {
+        this._mensagem.texto = error.message;
+      } else {
+        this._mensagem.texto = `Erro desconhecido, por favor entrar em contacto com a assistencia`;
+      }
+    }
   }
   //the method below can only be accessed inside the class. its a private method
   _limpaFormulario() {
