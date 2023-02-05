@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aprendendo IndexDB</title>
+  </head>
+  <body>
+    <script>
+      let connection = null;
+      const openRequest = indexedDB.open("jscangaceiro", 2);
+
+      openRequest.onupgradeneeded = (e) => {
+        console.log(`Cria ou altera um banco ja existente`);
+        connection = e.target.result;
+        console.log(connection);
+
+        if (connection.objectStoreNames.contains("negociacoes")) {
+          connection.deleteObjectStore("negociacoes");
+        }
+        connection.createObjectStore("negociacoes", { autoIncrement: true });
+      };
+
+      openRequest.onsuccess = (e) => {
+        console.log("Conexao obtida com sucesso!");
+        connection = e.target.result;
+      };
+
+      openRequest.onerror = (e) => {
+        console.log(e.target.error);
+      };
+      const adiciona = () => {
+        const request = connection
+          .transaction(["negociacoes"], "readwrite")
+          .objectStore("negociacoes")
+          .add(new Negociacao(new Date(), 200, 1));
+
+        request.onsuccess = (e) => console.log("adiconado com sucesso!");
+
+        request.onerror = (e) => console.log("nao foi possivel salvar a negociacao");
+      };
+
+      const listTodos = () => {
+        const negociacoes = [];
+
+        const cursor = connection.transaction(["negociacoes"], "readwrite").objectStore("negociacoes").openCursor();
+
+        cursor.onsuccess = (e) => {
+          const actual = e.target.result;
+
+          if (actual) {
+            negociacoes.push(new Negociacao(actual.value._data, actual.value._quantidade, actual.value._valor));
+            actual.continue();
+          } else {
+            console.log(negociacoes);
+          }
+        };
+
+        cursor.onerror = (e) => console.log("nao foi possivel salvar a negociacao");
+      };
+    </script>
+    <script src="./app/domain/negociacao/Negociacao.js"></script>
+  </body>
+</html>
