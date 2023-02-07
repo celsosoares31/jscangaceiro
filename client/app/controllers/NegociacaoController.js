@@ -10,13 +10,26 @@ class NegociacaoController {
 
     this._mensagem = new Bind(new Mensagem(), new MensagemView("#mensagemView"), "texto");
     this._service = new NegociacaoService();
+
+    this._init();
+  }
+  _init() {
+    getNegociacaoDao()
+      .then((dao) => dao.listaTodos())
+      .then((negociacoes) => negociacoes.forEach((negociacao) => this._negociacoes.adiciona(negociacao)))
+      .catch((err) => (this._mensagem.texto = err));
   }
   adiciona(e) {
     try {
       e.preventDefault();
-      this._negociacoes.adiciona(this._criaNegociacao());
-      this._mensagem.texto = "Negociacao adicionada com sucesso";
-      this._limpaFormulario();
+      const negociacao = this._criaNegociacao();
+      getNegociacaoDao()
+        .then((dao) => dao.adiciona(negociacao))
+        .then(() => {
+          this._negociacoes.adiciona(this._criaNegociacao());
+          this._mensagem.texto = "Negociacao adicionada com sucesso";
+          this._limpaFormulario();
+        });
     } catch (error) {
       console.log(error);
 
@@ -42,9 +55,13 @@ class NegociacaoController {
     );
   }
   apaga() {
-    this._negociacoes.esvazia();
-
-    this._mensagem.texto = "Negociacoes apagadas com sucesso";
+    getNegociacaoDao()
+      .then((dao) => dao.apagaTodos())
+      .then(() => {
+        this._negociacoes.esvazia();
+        this._mensagem.texto = "Negociacoes apagadas com sucesso";
+      })
+      .catch((err) => (this._mensagem.texto = err));
   }
 
   importaNegociacoes(e) {
