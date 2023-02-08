@@ -1,7 +1,13 @@
-class NegociacoesView extends View {
-  template(model) {
-    // console.log(model);
-    return `
+System.register([], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: function () {
+      class NegociacoesView extends View {
+        template(model) {
+          // console.log(model);
+          return `
     <table class="table table-hover table-bordered">
       <thead>
         <tr>
@@ -13,19 +19,16 @@ class NegociacoesView extends View {
       </thead>
 
       <tbody>
-      ${model
-        .paraArray()
-        .map((negociacao) => {
-          const { data, quantidade, valor, volume } = negociacao;
-          return `<tr>
+      ${model.paraArray().map(negociacao => {
+            const { data, quantidade, valor, volume } = negociacao;
+            return `<tr>
           <td>${DateConverter.paraTexto(data)}</td>
           <td>${quantidade}</td>
           <td>${valor}</td>
           <td>${volume}</td>
         </tr>;
         `;
-        })
-        .join("")}
+          }).join("")}
       </tbody>
 
       <tfoot>
@@ -35,5 +38,11 @@ class NegociacoesView extends View {
       </tr>
       </tfoot>
     </table>`;
-  }
-}
+        }
+      }
+
+      _export("NegociacoesView", NegociacoesView);
+    }
+  };
+});
+//# sourceMappingURL=NegociacoesView.js.map
