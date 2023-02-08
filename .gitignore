@@ -1,6 +1,8 @@
 .DS_Store
 settings.json
 .vscode
-loader.html
 db.html
+loader.html
 teste.js
+node_modules
+dist
