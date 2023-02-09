@@ -1,5 +1,7 @@
 import { ConnectionFactory } from "./ConnectionFactory";
 import { NegociacaoDao } from "../domain/negociacao/NegociacaoDao";
-export function getNegociacaoDao() {
-  return ConnectionFactory.getConnection().then((conn) => new NegociacaoDao(conn));
+export async function getNegociacaoDao() {
+  const conn = await ConnectionFactory.getConnection();
+
+  return new NegociacaoDao(conn);
 }
