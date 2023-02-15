@@ -1,12 +1,19 @@
+import { defaultParameterChecker } from '../../util/DefaultParameterChecker';
+
 export class Negociacao {
-  constructor(_data, _quantidade, _valor) {
-    Object.assign(this, {
-      _quantidade,
-      _valor,
-    });
-    (this._data = new Date(_data.getTime())), //this will avoid having date object reference.
-      //the line below freezes the objects creted through the constructor, to proibit the object change afterward.
-      Object.freeze(this);
+  constructor(
+    _data = defaultParameterChecker('data'),
+    _quantidade = defaultParameterChecker('quantidade'),
+    _valor = defaultParameterChecker('valor')
+  ) {
+    (this._data = new Date(_data.getTime())),
+      Object.assign(this, {
+        _quantidade,
+        _valor,
+      });
+    // (this._data = new Date(_data.getTime())), //this will avoid having date object reference.
+    //the line below freezes the objects creted through the constructor, to proibit the object change afterward.
+    Object.freeze(this);
   }
   get volume() {
     return this._valor * this._quantidade;

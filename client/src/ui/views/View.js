@@ -6,6 +6,6 @@ export class View {
     this._element.innerHTML = this.template(model);
   }
   template(model) {
-    throw new Error("Voce precisa implementar o metodo tamplate(model)");
+    throw new Error('Voce precisa implementar o metodo tamplate(model)');
   }
 }

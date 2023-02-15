@@ -1,10 +1,10 @@
-const stores = ["negociacoes"];
+const stores = ['negociacoes'];
 let connection = null;
 let close = null;
 
 export class ConnectionFactory {
   constructor() {
-    throw new Error("Nao e possivel criar instancias desta classe");
+    throw new Error('Nao e possivel criar instancias desta classe');
   }
   static _createStores(connection) {
     stores.forEach((store) => {
@@ -20,7 +20,7 @@ export class ConnectionFactory {
   static getConnection() {
     return new Promise((resolve, reject) => {
       if (connection) return resolve(connection);
-      const openRequest = indexedDB.open("cangaceiroDB", 1);
+      const openRequest = indexedDB.open('cangaceiroDB', 1);
 
       openRequest.onupgradeneeded = (e) => {
         ConnectionFactory._createStores(e.target.result);
@@ -30,7 +30,7 @@ export class ConnectionFactory {
         connection = e.target.result;
         close = connection.close.bind(connection);
         connection.close = () => {
-          throw new Error("Voce nao pode fechar a conexao directamente");
+          throw new Error('Voce nao pode fechar a conexao directamente');
         };
         resolve(e.target.result);
       };

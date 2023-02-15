@@ -1,14 +1,20 @@
-import { NegociacaoController } from "./controllers/NegociacaoController";
-import { debounce } from "./util/Debounce";
+import { NegociacaoController } from './controllers/NegociacaoController';
+import { Negociacao } from './domain/negociacao/Negociacao';
 
 const controller = new NegociacaoController();
-const $ = document.querySelector.bind(document);
-$("form").addEventListener("submit", controller.adiciona.bind(controller));
-$("#botao-apaga").addEventListener("click", controller.apaga.bind(controller));
-$("#botao-importa").addEventListener(
-  "click",
-  debounce(() => {
-    console.log("Executou a operacao do debounce");
-    controller.importaNegociacoes.bind(controller);
-  }, 1000)
-);
+const negociacao = new Negociacao(new Date(), 20, 200);
+const headers = new Headers();
+
+headers.set('Content-Type', 'application/json');
+
+const method = 'POST';
+const body = JSON.stringify(negociacao);
+
+const config = {
+  method,
+  headers,
+  body,
+};
+
+const url = '/negociacoes';
+// fetch(url, config).then(() => console.log('Dado enviado com sucesso'));

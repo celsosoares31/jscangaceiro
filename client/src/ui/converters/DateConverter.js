@@ -1,6 +1,8 @@
+import { DataInvalidaException } from './DataInvalidaException';
+
 export class DateConverter {
   constructor() {
-    throw new Error("A classe date converter nao pode ser instanciada");
+    throw new Error('A classe date converter nao pode ser instanciada');
   }
   static paraTexto(data) {
     return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
@@ -11,7 +13,7 @@ export class DateConverter {
     }
     return new Date(
       ...texto
-        .split("/")
+        .split('/')
         .reverse()
         .map((item, indice) => item - (indice % 2))
     );

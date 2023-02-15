@@ -1,5 +1,5 @@
 export class ApplicationException extends Error {
-  constructor(msg = "") {
+  constructor(msg = '') {
     super(msg);
     this.name = this.constructor.name;
   }
@@ -15,6 +15,6 @@ export function getExceptionMessage(err) {
     return err.message;
   } else {
     console.log(err);
-    return "Nao foi possivel realizar a operacao";
+    return 'Nao foi possivel realizar a operacao';
   }
 }

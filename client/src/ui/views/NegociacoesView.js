@@ -1,10 +1,10 @@
-import { View } from "./View";
-import { DateConverter } from "../converters/DateConverter";
+import { View } from './View';
+import { DateConverter } from '../converters/DateConverter';
 
 export class NegociacoesView extends View {
   template(model) {
-    // console.log(model);
     return `
+    <br>
     <table class="table table-hover table-bordered">
       <thead>
         <tr>
@@ -25,10 +25,10 @@ export class NegociacoesView extends View {
           <td>${quantidade}</td>
           <td>${valor}</td>
           <td>${volume}</td>
-        </tr>;
+        </tr>
         `;
         })
-        .join("")}
+        .join('')}
       </tbody>
 
       <tfoot>
