@@ -1,12 +1,13 @@
 import { ApplicationException } from '../../util/ApplicationException';
 import { HttpService } from '../../util/HttpService';
 import { Negociacao } from './Negociacao';
+
 export class NegociacaoService {
   constructor() {
     this._http = new HttpService();
   }
   obtemNegociacoesDaSemana() {
-    return this._http.get('negociacoes/semana').then(
+    return this._http.get(`http://localhost:3000/negociacoes/semana`).then(
       (dados) => {
         const response = dados.map(
           (obj) => new Negociacao(new Date(obj.data), obj.quantidade, obj.valor)
@@ -19,7 +20,7 @@ export class NegociacaoService {
     );
   }
   obtemNegociacoesDaSemanaAnterior() {
-    return this._http.get('negociacoes/anterior').then(
+    return this._http.get(`http://localhost:3000/negociacoes/anterior`).then(
       (dados) => dados.map((obj) => new Negociacao(new Date(obj.data), obj.quantidade, obj.valor)),
       (err) => {
         throw new ApplicationException('Nao foi possivel obter as negociacoes da semana anterior');
@@ -27,7 +28,7 @@ export class NegociacaoService {
     );
   }
   obtemNegociacoesDaSemanaRetrasada() {
-    return this._http.get('negociacoes/retrasada').then(
+    return this._http.get(`http://localhost:3000/negociacoes/retrasada`).then(
       (dados) => dados.map((obj) => new Negociacao(new Date(obj.data), obj.quantidade, obj.valor)),
       (err) => {
         throw new ApplicationException('Nao foi possivel obter as negociacoes da semana retrasada');

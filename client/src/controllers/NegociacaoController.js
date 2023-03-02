@@ -2,7 +2,7 @@ import { Negociacoes } from '../domain/negociacao/Negociacoes';
 import { Mensagem } from '../ui/models/Mensagem';
 import { MensagemView } from '../ui/views/MensagemView';
 import { NegociacoesView } from '../ui/views/NegociacoesView';
-import { NegociacaoService } from '../domain/negociacao/NegociacaoService';
+
 import { getNegociacaoDao } from '../util/DaoFactory';
 
 import { Negociacao } from '../domain/negociacao/Negociacao';
@@ -26,7 +26,7 @@ class NegociacaoController {
     );
 
     this._mensagem = new Bind(new Mensagem(), new MensagemView('#mensagemView'), 'texto');
-    this._service = new NegociacaoService();
+    // this._service = new NegociacaoService();
 
     this._init();
   }
@@ -86,7 +86,11 @@ class NegociacaoController {
   @bindEvent('click', '#botao-importa')
   async importaNegociacoes() {
     try {
-      const negociacoes = await this._service.obtemNegociacoesDoPeriodo();
+      const { NegociacaoService } = await import('../domain/negociacao/NegociacaoService');
+
+      const service = new NegociacaoService();
+      const negociacoes = await service.obtemNegociacoesDoPeriodo();
+      console.log(negociacoes);
 
       negociacoes
         .filter(
